@@ -3,7 +3,7 @@ This is a working example of a reverse proxy implementation in flask to redirect
 
 ### Why a reverse proxy?
 
-Flexx is based on tornado which relies on the asyncio features of Python. This is incompatible with flask which to my knowledge cannot entertain directly an app based on asyncio calls.
+Flexx is based on tornado which relies on the asyncio features of Python. This is not fully compatible with flask as mixing the two have drawbacks like slow response time. See "insert a Flexx app directly into flask" below.
 
 ### What is special about this reverse proxy?
 
@@ -11,7 +11,9 @@ It needs to implement bidirectional websocket connection from the client to the 
 
 ### Any way to insert a Flexx app directly into flask?
 
-Well maybe but I needed something quick and this is the best I found. If you want to try see: [https://pymotw.com/3/asyncio/executors.html](https://pymotw.com/3/asyncio/executors.html)
+It is possible and I found two ways to do it:
+1) Have a thread within flask that handles asyncio and run the flexx thread within that. See [https://github.com/ceprio/flexx/blob/master/flexxamples/howtos/flask_server.py](https://github.com/ceprio/flexx/blob/master/flexxamples/howtos/flask_server.py) for a working example. Threads and asyncio do not mix well together and this solution adds lags to the website.
+2) Run flask under Tornado. I have not tried this yet but it is possible and has great potential.
 
 ## Installation
 
